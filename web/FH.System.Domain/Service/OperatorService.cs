@@ -69,7 +69,7 @@ namespace JFB.Systems.Domain.Service
 
         public OperatorInfo GetbyPwd(string username, string pwd)
         {
-            var item = this.Get(a => a.Username == username && a.Userpass == pwd).FirstOrDefault();
+            var item = this.Get(a => a.Loginname == username && a.Userpass == pwd).FirstOrDefault();
             return item;
         }
     }

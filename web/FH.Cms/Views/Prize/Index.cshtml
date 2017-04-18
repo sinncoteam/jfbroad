@@ -24,35 +24,39 @@
             "bSortCellsTop": true,
             "bFilter": true,
             //            "oSearch": { "sSearch": "" },
-            "sAjaxSource": '/operator/pagelist',
+            "sAjaxSource": '/prize/indexlist',"type":"post",
             "aoColumns":
                [
-                { "mDataProp": "Id", 'sClass': 'center', "mRender": function (data, type)
+                { "mDataProp": "ID", 'sClass': 'center', "mRender": function (data, type)
                 {
                     return "<input type='checkbox' value='" + data + "' id='chk_main_'" + data + "' name='chkids' />";
                 }
                 },
-                { "mDataProp": "Id", 'sClass': 'center' },
-                { "mDataProp": "Loginname", 'sClass': 'center' },
-                { "mDataProp": "Username", 'sClass': 'center' },
-                { "mDataProp": "Lastlogintime", 'sClass': 'center', "mRender": function (data, type)
+                { "mDataProp": "ID", 'sClass': 'center' },
+                { "mDataProp": "RbTotal", 'sClass': 'center' },
+                { "mDataProp": "RbCount", 'sClass': 'center' },
+                { "mDataProp": "RbMoney", 'sClass': 'center' },
+                {
+                    "mDataProp": "CreateTime", 'sClass': 'center', "mRender": function (data, type)
                 {
                     return sysevt.UnixToDate(data, true);
                 }
                 },
-                { "mDataProp": "Createtime", 'sClass': 'center', "mRender": function (data, type)
+                {
+                    "mDataProp": "UpdateTime", 'sClass': 'center', "mRender": function (data, type)
                 {
                     return sysevt.UnixToDate(data, true);
                 }
                 },
-                { "mDataProp": "IsvalidName", 'sClass': 'center' },
-                { "mDataProp": "Id", 'sClass': 'center' }
+                { "mDataProp": "GetPercent", 'sClass': 'center' },
+                { "mDataProp": "IsValid", 'sClass': 'center' },
+                { "mDataProp": "ID", 'sClass': 'center' }
                 ],
             "aoColumnDefs":
             [
-                { "aTargets": [7], "mRender": function (data, type, full)
+                { "aTargets": [9], "mRender": function (data, type, full)
                 {
-                    return "<input type='button' class='btn btn-success btn-mini' onclick='location.href=\"/operator/edit/" + data + "\";' value='编 辑' /> <input type='button' class='btn btn-success btn-mini' onclick='roleTree.togetRole(" + data + ",\"" + full.Username + "\");' value='设置角色' />";
+                    return "<input type='button' class='btn btn-success btn-mini' onclick='location.href=\"/prize/edit/" + data + "\";' value='编 辑' /> ";
                 }
                 }
             ],
@@ -130,7 +134,7 @@
     {
         var s = tblevt.aSelected.join(",");
         $.ajax({
-            url: "/operator/resetstatus/", data: { ids: s, type: type }, type: "post", dataType: "json", success: function (r)
+            url: "/prize/resetstatus/", data: { ids: s, type: type }, type: "post", dataType: "json", success: function (r)
             {
                 sysevt.showtip(r.Msg);
                 if (r.Success)
@@ -146,17 +150,7 @@
     },
     gotoReset: function ()
     {
-        var s = tblevt.aSelected.join(",");
-        $.ajax({
-            url: "/operator/resetpass/", data: { ids: s }, type: "post", dataType: "json", success: function (r)
-            {
-                sysevt.showtip(r.Msg);
-            },
-            error: function (ex)
-            {
-                sysevt.showtip("操作失败！" + ex.statusText);
-            }
-        });
+        
     }
 };
    
@@ -170,9 +164,9 @@
 <div id="content">
 <!--breadcrumbs-->
   <div id="content-header">
-        <div id="breadcrumb"> <a href="/" title="返回首页" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="javascript:;"  class="tip-bottom"> 管理员管理</a></div>
+        <div id="breadcrumb"> <a href="/" title="返回首页" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="javascript:;"  class="tip-bottom"> 红包管理</a></div>
         <div class="page_title_area">
-            <div class="page_title">管理员管理</div>
+            <div class="page_title">红包管理</div>
                   
         </div>
     </div>
@@ -182,10 +176,10 @@
             <div class="widget-box">
                 <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>  
                     <div class="tbl_btn">
-                    <input type="button" onclick="location.href='/operator/edit';" class="btn btn-warning btn-mini" value="创建帐号" /> 
-                    <input type="button" onclick="btnEvt.gotoStatus(1);" class="btn btn-success btn-mini" value="激活帐号" /> 
-                    <input type="button" onclick="btnEvt.gotoStatus(0);" class="btn btn-inverse btn-mini" value="封禁帐号" />
-                     <input type="button" onclick="btnEvt.gotoReset();"  class="btn btn-danger btn-mini" value="重置密码" />
+                    <input type="button" onclick="location.href='/prize/edit';" class="btn btn-warning btn-mini" value="创建红包" /> 
+                    <input type="button" onclick="btnEvt.gotoStatus(1);" class="btn btn-success btn-mini" value="激活活动" /> 
+                    <input type="button" onclick="btnEvt.gotoStatus(0);" class="btn btn-inverse btn-mini" value="暂停红包" />
+                     
                      </div>
                   </div>
                 <div class="widget-content nopadding">
@@ -194,24 +188,28 @@
                     <tr>
                       <th><input type="checkbox" id="title-table-checkbox" onclick="javascript:tblevt.selectall(this);" name="title-table-checkbox" /></th>
                       <th>ID</th>
-                      <th>帐号</th>
-                      <th>姓名</th>
-                      <th>最后登录时间</th>
+                      <th>红包总数</th>
+                      <th>剩余数量</th>
+                      <th>红包金额</th>
                       <th>创建时间</th>
+                      <th>修改时间</th>
+                      <th>中奖率</th>
                       <th>状态</th>
-                      <th>角色</th>
+                        <th>操作</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th></th>
-                      <th>ID</th>
-                      <th>帐号</th>
-                      <th>姓名</th>
-                      <th>最后登录时间</th>
-                      <th>创建时间</th>
-                      <th>状态</th>
-                      <th>角色</th>
+                        <th><input type="checkbox" id="title-table-checkbox" onclick="javascript:tblevt.selectall(this);" name="title-table-checkbox" /></th>
+                        <th>ID</th>
+                        <th>红包总数</th>
+                        <th>剩余数量</th>
+                        <th>红包金额</th>
+                        <th>创建时间</th>
+                        <th>修改时间</th>
+                        <th>中奖率</th>
+                        <th>状态</th>
+                        <th>操作</th>
                     </tr>
                   </tfoot>
                 </table>

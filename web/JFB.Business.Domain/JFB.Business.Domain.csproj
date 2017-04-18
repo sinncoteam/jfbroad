@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JFB.Business.Domain</RootNamespace>
     <AssemblyName>JFB.Business.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,10 +49,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Info\UserInfo.cs" />
+    <Compile Include="Model\RedPack.cs" />
+    <Compile Include="Model\RedPackList.cs" />
+    <Compile Include="Model\RedPackListMap.cs" />
+    <Compile Include="Model\RedPackMap.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\UserMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\RedPackListService.cs" />
+    <Compile Include="Service\RedPackService.cs" />
     <Compile Include="Service\UserService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

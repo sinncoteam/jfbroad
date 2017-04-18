@@ -18,6 +18,11 @@
     <UseIISExpress>false</UseIISExpress>
     <SilverlightApplicationList>
     </SilverlightApplicationList>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -134,6 +139,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Component\Authentication.cs" />
+    <Compile Include="Component\AuthLoginAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OperatorController.cs" />
     <Compile Include="Controllers\PrizeController.cs" />
@@ -540,6 +546,10 @@
     <ProjectReference Include="..\FH.Utils\JFB.Utils.csproj">
       <Project>{48986C93-F7FD-4545-9239-FB15B5C65C5D}</Project>
       <Name>JFB.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JFB.Business.Domain\JFB.Business.Domain.csproj">
+      <Project>{4162a519-4cf5-4290-a64c-fa8e87c8f87d}</Project>
+      <Name>JFB.Business.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

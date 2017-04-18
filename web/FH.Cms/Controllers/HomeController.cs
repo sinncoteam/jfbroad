@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace FH.Cms.Controllers
+namespace JFB.Cms.Controllers
 {
     public class HomeController : Controller
     {

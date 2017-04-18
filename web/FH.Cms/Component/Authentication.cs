@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using YC.Sys.Domain.Model;
 using System.Web;
 using System.Web.Security;
-using YC.Sys.Domain.Service;
-using YC.Sys.Domain.Info;
 using JFB.Systems.Domain.Service;
 using JFB.Systems.Domain.Info;
 

@@ -7,6 +7,8 @@ using JFB.Utils;
 using ViData;
 using JFB.Systems.Domain.Service;
 using JFB.Systems.Domain.Info;
+using JFB.Business.Domain.Service;
+using JFB.Business.Domain.Model;
 
 namespace JFB.Cms.Controllers
 {
@@ -23,25 +25,26 @@ namespace JFB.Cms.Controllers
             {
                 BeginIndex = adata.iDisplayStart + 1,
                 EndIndex = adata.iDisplayStart + adata.iDisplayLength,
-                TableName = "t_d_operator op",
+                TableName = "t_d_redpack op",
                 Fileds = "*",
                 SortFields = "id desc"
             };
-            if (!string.IsNullOrEmpty(adata.sSearch))
-            {
-                pi.Conditions = "  op.username like '%'+@key+'%' ";
-                pi.Parameters.Add("key", adata.sSearch);
-            }
-            OperatorService x_opService = new OperatorService();
-            var list = x_opService.GetPaging(pi);
-            JTableResult<OperatorInfo> ar = new JTableResult<OperatorInfo>()
+            //if (!string.IsNullOrEmpty(adata.sSearch))
+            //{
+            //    pi.Conditions = "  op.username like '%'+@key+'%' ";
+            //    pi.Parameters.Add("key", adata.sSearch);
+            //}
+            RedPackService x_rpService = new RedPackService();
+            var list = x_rpService.GetPaging(pi);
+
+            JTableResult<RedPack> ar = new JTableResult<RedPack>()
             {
                 sEcho = adata.sEcho,
                 iTotalRecords = pi.RecordCount,
                 iTotalDisplayRecords = pi.RecordCount,
                 aaData = list
             };
-            return Json(ar);
+            return Json(ar, JsonRequestBehavior.AllowGet);
         }
 
     }
