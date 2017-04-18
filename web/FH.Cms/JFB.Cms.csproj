@@ -150,6 +150,7 @@
     </Compile>
     <Compile Include="Models\OperatorModel.cs" />
     <Compile Include="Models\RackModel.cs" />
+    <Compile Include="Models\RedPackEditDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -583,6 +584,7 @@
     <Content Include="Views\Rack\Map.cshtml" />
     <Content Include="Views\Prize\Index.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Prize\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
