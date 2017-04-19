@@ -17,6 +17,9 @@ namespace JFB.Business.Domain.Model
             Map(a => a.GetTime, "gettime");
             Map(a => a.UserId, "user_id");
             Map(a => a.PackMoney, "packmoney");
+            Map(a => a.PackStatus, "packstatus");
+            Map(a => a.Noncestr, "noncestr");
+            Map(a => a.PaySign, "paysign");
         }
     }
 }

@@ -9,6 +9,7 @@ namespace JFB.Business.Domain.Model
     public class RedPack
     {
         public int ID { get; set; }
+        public string RbName { get; set; }
         public int RbTotal { get; set; }
         public int RbCount { get; set; }
         public int RbMoney { get; set; }

@@ -79,7 +79,15 @@
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
   <ul>
     <li class="active"><a href="/"><i class="icon icon-home"></i> <span>首页</span></a> </li>
-    <li> <a href="/prize"><i class="icon icon-signal"></i> <span>红包管理</span></a> </li>
+    
+      <li class="submenu">
+          <a href="javascript:;"><i class="icon icon-th-list"></i> <span>红包管理</span> </a>
+          <ul>
+              <li><a href="/prize/edit">创建红包</a></li>
+              <li><a href="/prize">红包列表</a></li>
+              <li><a href="/prize/userlist">中奖用户</a></li>
+          </ul>
+      </li>
     <li><a href="/operator"><i class="icon icon-th"></i> <span>系统管理</span></a></li>
     @*<li><a href="javascript:;"><i class="icon icon-fullscreen"></i> <span>存货管理</span></a></li>
     <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>监控管理</span> <span class="label label-important">3</span></a>

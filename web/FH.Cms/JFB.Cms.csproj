@@ -46,6 +46,14 @@
       <HintPath>..\..\lib\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Senparc.Weixin, Version=4.11.9.36951, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Senparc.Weixin.4.11.9\lib\net40\Senparc.Weixin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Senparc.Weixin.MP, Version=14.3.142.36952, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Senparc.Weixin.MP.14.3.142\lib\net40\Senparc.Weixin.MP.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -585,6 +593,7 @@
     <Content Include="Views\Prize\Index.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\Prize\Edit.cshtml" />
+    <Content Include="Views\Prize\UserList.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

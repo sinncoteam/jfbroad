@@ -10,6 +10,8 @@ using JFB.Systems.Domain.Info;
 using JFB.Business.Domain.Service;
 using JFB.Business.Domain.Model;
 using JFB.Cms.Models;
+using JFB.Business.Domain.Info;
+using System.Threading;
 
 namespace JFB.Cms.Controllers
 {
@@ -48,12 +50,12 @@ namespace JFB.Cms.Controllers
             return Json(ar, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ResetStatus(string ids ,int type)
+        public JsonResult ResetStatus(string ids, int type)
         {
             AjaxMsgResult result = new AjaxMsgResult();
             RedPackService x_rpService = new RedPackService();
             int i = x_rpService.ResetStatus(ids, type);
-            if( i > 0)
+            if (i > 0)
             {
                 result.Success = true;
                 result.Msg = "重置状态成功";
@@ -88,13 +90,14 @@ namespace JFB.Cms.Controllers
             RedPackService x_opService = new RedPackService();
             if (rp.ID > 0)  //更新
             {
-                int i = x_opService.Update(() => new RedPack() {
-                     RbCount = rp.RbCount,
-                      RbMoney = rp.RbMoney,
-                       RbTotal = rp.RbTotal,
-                        UpdateTime = DateTime.Now,
-                         GetPercent = rp.GetPercent
-                }, a => a.ID== rp.ID);
+                int i = x_opService.Update(() => new RedPack()
+                {
+                    RbCount = rp.RbCount,
+                    RbMoney = rp.RbMoney,
+                    RbTotal = rp.RbTotal,
+                    UpdateTime = DateTime.Now,
+                    GetPercent = rp.GetPercent
+                }, a => a.ID == rp.ID);
                 if (i > 0)
                 {
                     result.Success = true;
@@ -111,6 +114,75 @@ namespace JFB.Cms.Controllers
                 rp.UpdateTime = DateTime.Now;
                 x_opService.Insert(rp);
                 result.Success = true;
+            }
+            return Json(result);
+        }
+
+        public ActionResult UserList()
+        {
+            return View();
+        }
+
+        public JsonResult UserListData(JTableData adata)
+        {
+            PagingInfo pi = new PagingInfo()
+            {
+                BeginIndex = adata.iDisplayStart + 1,
+                EndIndex = adata.iDisplayStart + adata.iDisplayLength,
+                TableName = "t_d_redpack_list rpl inner join t_d_redpack rp on rp.ID = rpl.pack_id inner join t_d_user u on u.ID = rpl.user_id",
+                Fileds = "u.nickname, u.openid, rp.rbname, rpl.*",
+                SortFields = " rpl.id desc"
+            };
+            if (!string.IsNullOrEmpty(adata.sSearch))
+            {
+                pi.Conditions = "  u.nickname like '%'+@key+'%' ";
+                pi.Parameters.Add("key", adata.sSearch);
+            }
+            RedPackListService x_rpService = new RedPackListService();
+            var list = x_rpService.GetPaging(pi);
+
+            JTableResult<RedPackListInfo> ar = new JTableResult<RedPackListInfo>()
+            {
+                sEcho = adata.sEcho,
+                iTotalRecords = pi.RecordCount,
+                iTotalDisplayRecords = pi.RecordCount,
+                aaData = list
+            };
+            return Json(ar, JsonRequestBehavior.AllowGet);
+        }
+
+        static object locker = new object();
+        public JsonResult SetAllPack()
+        {
+            AjaxMsgResult result = new AjaxMsgResult();
+            RedPackListService x_rplService = new RedPackListService();
+            var list = x_rplService.getAllUser();
+            if (list.Count > 0)
+            {
+                lock (locker)
+                {
+                    list = x_rplService.getAllUser();
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        string noncestr = "";
+                        string paysing = "";
+                        var item = list[i];
+                        //Senparc.Weixin.MP.TenPayLibV3.RedPackApi.SendNormalRedPack("appid", "mchid", "tenpaykey", "certpath", "openid", "sendername", "ip", 125, "wishing word", "actionname", "remark", out noncestr, out paysing, "mchBillNo");
+                        x_rplService.Update(() => new RedPackListInfo() { Noncestr = noncestr, PaySign = paysing, PackStatus = 1 }, a => a.ID == item.ID);
+                        if (i > 0 && i % 300 == 0)
+                        {
+                            Thread.Sleep(15000);
+                        }
+                    }
+                    result.Success = true;
+                    result.Msg = "成功给" + list.Count + "个用户发送了红包";
+                    
+                }
+            }
+            else
+            {
+                result.Success = false;
+                result.Msg = "所有用户都已发送过红包";
             }
             return Json(result);
         }

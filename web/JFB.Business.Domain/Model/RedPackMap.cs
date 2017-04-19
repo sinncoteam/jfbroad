@@ -13,6 +13,7 @@ namespace JFB.Business.Domain.Model
         {
             Table("t_d_redpack");
             Id(a => a.ID, "ID").Identity();
+            Map(a => a.RbName, "rbname");
             Map(a => a.RbTotal, "rbtotal");
             Map(a => a.RbCount, "rbcount");
             Map(a => a.RbMoney, "rbmoney");

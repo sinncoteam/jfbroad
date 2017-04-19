@@ -7,6 +7,7 @@
     {
         $("#form1").validate({
             rules: {
+                rbname:{ required: true},
                 rbtotal: {
                     required: true
                 },
@@ -21,6 +22,7 @@
                 }
             },
             messages: {
+                rbname:"请输入红包名称",
                 rbtotal: "请输入红包总数",
                 rbcount: "请输入剩余数量",
                 rbmoney: "请输入红包金额",
@@ -84,6 +86,12 @@
                     <div class="widget-content nopadding">
                         <form class="form-horizontal" method="post" action="#" name="form1" id="form1" novalidate="novalidate">
                             <input type="hidden" value="@Model.RPInfo.ID" name="id" />
+                            <div class="control-group">
+                                <label class="control-label"><span class="required_form">*</span> 红包名称</label>
+                                <div class="controls">
+                                    <input type="text" class="span6" name="rbname" id="rbname" value="@Model.RPInfo.RbName" /> 
+                                </div>
+                            </div>
                             <div class="control-group">
                                 <label class="control-label"><span class="required_form">*</span> 红包总量</label>
                                 <div class="controls">
