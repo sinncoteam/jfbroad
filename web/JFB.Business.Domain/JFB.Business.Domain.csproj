@@ -48,6 +48,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Info\RedPackCheck.cs" />
     <Compile Include="Info\RedPackListInfo.cs" />
     <Compile Include="Info\UserInfo.cs" />
     <Compile Include="Model\RedPack.cs" />
