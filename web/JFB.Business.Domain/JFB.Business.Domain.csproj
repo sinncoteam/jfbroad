@@ -48,9 +48,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Info\QuestionInfo.cs" />
     <Compile Include="Info\RedPackCheck.cs" />
     <Compile Include="Info\RedPackListInfo.cs" />
     <Compile Include="Info\UserInfo.cs" />
+    <Compile Include="Model\Answer.cs" />
+    <Compile Include="Model\AnswerMap.cs" />
+    <Compile Include="Model\Question.cs" />
+    <Compile Include="Model\QuestionMap.cs" />
     <Compile Include="Model\RedPack.cs" />
     <Compile Include="Model\RedPackList.cs" />
     <Compile Include="Model\RedPackListMap.cs" />
@@ -58,6 +63,8 @@
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\UserMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\AnswerServie.cs" />
+    <Compile Include="Service\QuestionService.cs" />
     <Compile Include="Service\RedPackListService.cs" />
     <Compile Include="Service\RedPackService.cs" />
     <Compile Include="Service\UserService.cs" />
