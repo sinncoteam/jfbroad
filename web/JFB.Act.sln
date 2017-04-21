@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JFB.Cms", "FH.Cms\JFB.Cms.csproj", "{68FA3DA5-D0FD-4A60-85C4-FE15EBC4D75F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JFB.Systems.Domain", "FH.System.Domain\JFB.Systems.Domain.csproj", "{6E286B01-0768-48A3-B057-75EFB47213BF}"
@@ -8,13 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JFB.Utils", "FH.Utils\JFB.Utils.csproj", "{48986C93-F7FD-4545-9239-FB15B5C65C5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JFB.Business.Domain", "JFB.Business.Domain\JFB.Business.Domain.csproj", "{4162A519-4CF5-4290-A64C-FA8E87C8F87D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{82F3A7D3-DF6E-45ED-8C07-2A28B5D57391}"
-	ProjectSection(SolutionItems) = preProject
-		..\lib\log4net.dll = ..\lib\log4net.dll
-		..\lib\ViCore.dll = ..\lib\ViCore.dll
-		..\lib\ViData.dll = ..\lib\ViData.dll
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JFB.Wx", "JFB.Wx\JFB.Wx.csproj", "{E656969C-2B1C-44A7-AF06-B63CCAA899F1}"
 EndProject
