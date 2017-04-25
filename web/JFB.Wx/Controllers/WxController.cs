@@ -25,7 +25,7 @@ namespace JFB.Wx.Controllers
             string code = Request.QueryString["code"];
             string state = Request.QueryString["state"];
             string s = Request.QueryString["s"];
-            if (!true)
+            if (!IsLogin)
             {
                 OAuthAccessTokenResult result = OAuthApi.GetAccessToken(tenPayV3Info.AppId, tenPayV3Info.AppSecret, code);
                 if (result.errcode == Senparc.Weixin.ReturnCode.请求成功)

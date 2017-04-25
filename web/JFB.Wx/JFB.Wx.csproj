@@ -40,6 +40,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\ZC.Monitor\lib\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Senparc.Weixin, Version=4.11.9.36951, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Senparc.Weixin.4.11.9\lib\net40\Senparc.Weixin.dll</HintPath>
@@ -124,19 +128,41 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\Authentication.cs" />
+    <Compile Include="Component\AuthLoginAttribute.cs" />
     <Compile Include="Component\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\WxController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\GameDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="css\reset.css" />
+    <Content Include="css\style.css" />
     <Content Include="Global.asax" />
+    <Content Include="images\bg.png" />
+    <Content Include="images\bg3.png" />
+    <Content Include="images\btn.png" />
+    <Content Include="images\car.png" />
+    <Content Include="images\fx.png" />
+    <Content Include="images\game_bg.png" />
+    <Content Include="images\map.png" />
+    <Content Include="images\p.png" />
+    <Content Include="images\sorry.png" />
+    <Content Include="images\start.png" />
+    <Content Include="images\start1.png" />
+    <Content Include="images\wxhb.png" />
+    <Content Include="images\xs.png" />
+    <Content Include="images\xx.png" />
+    <Content Include="js\common.js" />
+    <Content Include="js\game.js" />
+    <Content Include="js\index.js" />
+    <Content Include="js\zepto.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -147,7 +173,9 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Content Include="Config\Appsettings.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -165,10 +193,38 @@
     <Content Include="Views\Shared\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FH.Utils\JFB.Utils.csproj">
+      <Project>{48986c93-f7fd-4545-9239-fb15b5c65c5d}</Project>
+      <Name>JFB.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JFB.Business.Domain\JFB.Business.Domain.csproj">
       <Project>{4162a519-4cf5-4290-a64c-fa8e87c8f87d}</Project>
       <Name>JFB.Business.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Game.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="images\Thumbs.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\style.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\Unity.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\ViCore.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

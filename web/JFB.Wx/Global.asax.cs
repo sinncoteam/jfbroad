@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using ViData;
 
 namespace JFB.Wx
 {
@@ -19,6 +20,9 @@ namespace JFB.Wx
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            log4net.Config.XmlConfigurator.Configure();
+            DMHelper.Instance.ExportMapping();
         }
     }
 }

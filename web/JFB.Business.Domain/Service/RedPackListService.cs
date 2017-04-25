@@ -38,11 +38,12 @@ namespace JFB.Business.Domain.Service
                      MinV = total,
                       MaxV = nextv - 1
                 };
+                clist.Add(rc);
                 total = nextv;
             }
             Random rnd = new Random(DateTime.Now.GetHashCode());
             int v = rnd.Next(1, total);
-            var checkitem = clist.Where(a => a.MaxV >= v && a.MinV <= v).FirstOrDefault();
+            var checkitem = clist.Where(a => v >= a.MinV && v <= a.MaxV).FirstOrDefault();
             if( checkitem != null)
             {
                 lock (locker)
@@ -84,17 +85,12 @@ namespace JFB.Business.Domain.Service
                     }
                 }
             }
-            RedPackListInfo rpinfo2 = new RedPackListInfo()
+            else
             {
-                PackId = 0,
-                GetTime = DateTime.Now,
-                PackMoney = 0,
-                UserId = userId,
-                PackStatus = 0
-            };
-            this.Insert(rpinfo2);
-            info.PackId = 0;
-            info.RbName = "很遗憾，本次未能抽中红包";
+                info.PackId = 0;
+                info.RbName = "很遗憾，本次未能抽中红包";
+            }           
+            
             return info;
         }
     }

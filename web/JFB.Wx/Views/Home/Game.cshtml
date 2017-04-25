@@ -1,0 +1,111 @@
+﻿@model JFB.Wx.Models.GameDto
+@section top_js{
+    <script type="text/javascript">
+        function getredpack()
+        {
+            $.ajax({
+                url:"/home/gamered", type:"post", dataType:"json",success: function(r)
+                {
+                    if(r.Success)
+                    {
+                        $("#x_redp").text(r.Source.PackMoney / 100);
+                        $("#win-dialog").show();
+                    }
+                    else {
+                        alert(r.Msg);
+                    }
+                },error: function(r)
+                {
+                    alert("err");
+                }
+            });
+        }
+    </script>
+    }
+    <div class="games-container">
+        <p class="time-text">用时：<span class="time">0s</span></p>
+        <div class="xt-container">
+            <img class="xt" src="/images/xx.png" />
+        </div>
+        <div class="bg3"></div>
+        <img class="car" src="/images/car.png" />
+        <a class="start-btn btn2" href="javascript:;"></a>
+        <a class="start-btn btn1" href="javascript:;"></a>
+
+        <!--限速-->
+        <div class="xs"></div>
+        <!--路牌-->
+        <!--<div class="lp right">
+            <p class="lp-text">北区路入口</p>
+        </div>	-->
+        <!--<div class="lp1 left">
+            <p class="lp-text">世贸中心</p>
+        </div>-->
+
+    </div>
+
+    <!--问题-->
+    <div class="dialog" id="ques-dialog">
+        @foreach (var item in Model.qList)
+        {
+        <div class="dialog-content">
+            <h3 class="dialog-title">@item.QTitle？</h3>
+            @foreach (var subitem in item.AnswerList)
+            {
+                if (subitem.IsRight == 1)
+                {
+            <a class="games-btn true-btn" href="javascript:;">@subitem.QAnswer</a>
+                }
+                else
+                {
+            <a class="games-btn false-btn" href="javascript:;">@subitem.QAnswer</a>
+                    }
+                }
+        </div>
+        }
+    </div>
+
+    <!--闯关成功-->
+    <div class="dialog" id="win-dialog">
+        <div class="win-content">
+            <div class="win-content1">
+                <h3 class="win-title">恭喜你赢得一个红包</h3>
+                <p class="win-text"><span id="x_redp">0.00</span><span class="win-text1">元</span></p>
+                <p class="win-btn">分享给朋友</p>
+            </div>
+            <p class="win-text2">红包金额将在活动结束后7天内发送到您的微信中，请注意查收。</p>
+        </div>
+    </div>
+
+    <!--分享-->
+    <div class="dialog" id="fx-dialog">
+        <img class="fx-pic" src="/images/fx.png" />
+    </div>
+
+    <!--sorry-->
+    <div class="dialog sorry-dialog" id="sorry-dialog">
+        <div class="sorry-content">
+            <p class="sorry-text">很遗憾，你答题错误</p>
+            <p class="sorry-text">此次挑战失败</p>
+            <div class="sorry-btn-box">
+                <a class="sorry-btn btn1" href="javascript:;"></a>
+                <a class="sorry-btn btn2" href="/"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="dialog sorry-dialog" id="time-dialog">
+        <div class="sorry-content">
+            <p class="sorry-text">很遗憾，你超时了</p>
+            <p class="sorry-text">此次挑战失败</p>
+            <div class="sorry-btn-box">
+                <a class="sorry-btn btn1" href="javascript:;"></a>
+                <a class="sorry-btn btn2" href="/"></a>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript" src="/js/zepto.js"></script>
+<script type="text/javascript" src="/js/game.js"></script>
+    @*<script type="text/javascript">
+        getredpack();
+    </script>*@
