@@ -1,5 +1,6 @@
 ﻿using JFB.Business.Domain.Info;
 using JFB.Business.Domain.Service;
+using JFB.Utils;
 using JFB.Wx.Component;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
@@ -10,6 +11,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ViCore.Logging;
 
 namespace JFB.Wx.Controllers
 {
@@ -74,6 +76,38 @@ namespace JFB.Wx.Controllers
                 url = s;
             }
             return Redirect(url);
+        }
+
+        public ActionResult RecLogin()
+        {
+            string json = Request.Form["jsondata"];
+            string data = AESHelper.AESDecrypt(json);
+            UserService x_userService = new UserService();
+            var item = x_userService.Get(a => a.OpenId == data).FirstOrDefault();
+            if (item != null)
+            {
+                if (item.IsValid == 1)
+                {
+                    Authentication.Instance.SetAuth(item, true);
+                    return RedirectToAction("game");
+                }
+            }
+            else
+            {
+                UserInfo uInfo = new UserInfo()
+                {
+                    IsValid = 1,
+                    CreateTime = DateTime.Now,
+                    //Lastlogintime = DateTime.Now,
+                    NickName = data,
+                    OpenId = data,
+                    HeadImage = data
+                };
+                uInfo.ID = Convert.ToInt32(x_userService.Insert(uInfo));
+                Authentication.Instance.SetAuth(uInfo, true);
+                return RedirectToAction("game");
+            }
+            return RedirectToAction("index");
         }
     }
 }
