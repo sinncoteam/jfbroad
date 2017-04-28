@@ -2,6 +2,7 @@
 using JFB.Business.Domain.Service;
 using JFB.Utils;
 using JFB.Wx.Component;
+using JFB.Wx.Models;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
 using Senparc.Weixin.MP.TenPayLibV3;
@@ -11,6 +12,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using ViCore.Logging;
 
 namespace JFB.Wx.Controllers
@@ -81,33 +83,41 @@ namespace JFB.Wx.Controllers
         public ActionResult RecLogin()
         {
             string json = Request.Form["jsondata"];
-            string data = AESHelper.AESDecrypt(json);
-            UserService x_userService = new UserService();
-            var item = x_userService.Get(a => a.OpenId == data).FirstOrDefault();
-            if (item != null)
+            string data = AESHelper.Decode(json);
+            Logging4net.WriteInfo(data);
+            if (!string.IsNullOrEmpty(data))
             {
-                if (item.IsValid == 1)
+                JavaScriptSerializer jss = new JavaScriptSerializer();
+                WxUserInfo wxu = jss.Deserialize<WxUserInfo>(data);
+
+                UserService x_userService = new UserService();
+                var item = x_userService.Get(a => a.OpenId == wxu.openid).FirstOrDefault();
+                if (item != null)
                 {
-                    Authentication.Instance.SetAuth(item, true);
-                    return RedirectToAction("game");
+                    Logging4net.WriteInfo("isvalid:" + item.IsValid);
+                    if (item.IsValid == 1)
+                    {
+                        Authentication.Instance.SetAuth(item, true);
+                        return RedirectToAction("index","home");
+                    }
+                }
+                else
+                {
+                    UserInfo uInfo = new UserInfo()
+                    {
+                        IsValid = 1,
+                        CreateTime = DateTime.Now,
+                        //Lastlogintime = DateTime.Now,
+                        NickName = wxu.nickname,
+                        OpenId = wxu.openid,
+                        HeadImage = wxu.headimgurl
+                    };
+                    uInfo.ID = Convert.ToInt32(x_userService.Insert(uInfo));
+                    Authentication.Instance.SetAuth(uInfo, true);
+                    return RedirectToAction("index", "home");
                 }
             }
-            else
-            {
-                UserInfo uInfo = new UserInfo()
-                {
-                    IsValid = 1,
-                    CreateTime = DateTime.Now,
-                    //Lastlogintime = DateTime.Now,
-                    NickName = data,
-                    OpenId = data,
-                    HeadImage = data
-                };
-                uInfo.ID = Convert.ToInt32(x_userService.Insert(uInfo));
-                Authentication.Instance.SetAuth(uInfo, true);
-                return RedirectToAction("game");
-            }
-            return RedirectToAction("index");
+            return RedirectToAction("index","home");
         }
     }
 }

@@ -16,11 +16,12 @@ namespace JFB.Wx.Component
         {
         }
         static UserService omService = new UserService();
+        private static Authentication instance = new Authentication();
         public static Authentication Instance
         {
             get
             {
-                return new Authentication();
+                return instance;
             }
         }
 
@@ -32,6 +33,7 @@ namespace JFB.Wx.Component
                 {
                     return null;
                 }
+                return HttpContext.Current.Session[UserSessionKey] as UserInfo;
                 int uid;
                 if (int.TryParse(HttpContext.Current.User.Identity.Name, out uid))
                 {
@@ -58,7 +60,8 @@ namespace JFB.Wx.Component
         {
             get
             {
-                return HttpContext.Current.Request.IsAuthenticated;
+                return HttpContext.Current.Session[UserSessionKey] != null;
+                //return HttpContext.Current.Request.IsAuthenticated;
             }
         }
 

@@ -114,13 +114,13 @@ $(function(){
 			})
 			$(".start-btn").on("touchstart",function(){
 				$(this).css({
-					"background":"url('images/start1.png')",
+					"background":"url('~/images/start1.png')",
 					"background-size":"100% 100%"
 				});
 			})
 			$(".start-btn").on("touchend",function(){
 				$(this).css({
-					"background":"url('images/start.png')",
+					"background":"url('~/images/start.png')",
 					"background-size":"100% 100%"
 				});
 			})

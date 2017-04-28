@@ -16,11 +16,13 @@ namespace JFB.Cms.Component
         {
         }
         static OperatorService omService = new OperatorService();
+        private static Authentication instance = new Authentication();
+
         public static Authentication Instance
         {
             get
             {
-                return new Authentication();
+                return instance;
             }
         }
 

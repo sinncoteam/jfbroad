@@ -4,7 +4,7 @@
         function getredpack()
         {
             $.ajax({
-                url:"/home/gamered", type:"post", dataType:"json",success: function(r)
+                url: "~/home/gamered", type: "post", dataType: "json", success: function (r)
                 {
                     if(r.Success)
                     {
@@ -25,10 +25,10 @@
     <div class="games-container">
         <p class="time-text">用时：<span class="time">0s</span></p>
         <div class="xt-container">
-            <img class="xt" src="/images/xx.png" />
+            <img class="xt" src="~/images/xx.png" />
         </div>
         <div class="bg3"></div>
-        <img class="car" src="/images/car.png" />
+        <img class="car" src="~/images/car.png" />
         <a class="start-btn btn2" href="javascript:;"></a>
         <a class="start-btn btn1" href="javascript:;"></a>
 
@@ -49,7 +49,7 @@
         @foreach (var item in Model.qList)
         {
         <div class="dialog-content">
-            <h3 class="dialog-title">@item.QTitle？</h3>
+            <h3 class="dialog-title">@item.QTitle</h3>
             @foreach (var subitem in item.AnswerList)
             {
                 if (subitem.IsRight == 1)
@@ -79,7 +79,7 @@
 
     <!--分享-->
     <div class="dialog" id="fx-dialog">
-        <img class="fx-pic" src="/images/fx.png" />
+        <img class="fx-pic" src="~/images/fx.png" />
     </div>
 
     <!--sorry-->
@@ -89,7 +89,7 @@
             <p class="sorry-text">此次挑战失败</p>
             <div class="sorry-btn-box">
                 <a class="sorry-btn btn1" href="javascript:;"></a>
-                <a class="sorry-btn btn2" href="/"></a>
+                <a class="sorry-btn btn2" href="~/"></a>
             </div>
         </div>
     </div>
@@ -100,12 +100,12 @@
             <p class="sorry-text">此次挑战失败</p>
             <div class="sorry-btn-box">
                 <a class="sorry-btn btn1" href="javascript:;"></a>
-                <a class="sorry-btn btn2" href="/"></a>
+                <a class="sorry-btn btn2" href="~/"></a>
             </div>
         </div>
     </div>
-<script type="text/javascript" src="/js/zepto.js"></script>
-<script type="text/javascript" src="/js/game.js"></script>
+<script type="text/javascript" src="~/js/zepto.js"></script>
+<script type="text/javascript" src="~/js/game.js"></script>
     @*<script type="text/javascript">
         getredpack();
     </script>*@
