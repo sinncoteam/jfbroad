@@ -73,8 +73,30 @@ namespace JFB.Business.Domain.Service
                             }
                             else
                             {
-                                info.PackId = 0;
-                                info.RbName = "红包已发完，请留意后续活动";
+                                string sql = "select top 1 * from t_d_redpack where isvalid = 1 and rbcount > 0 order by newid()";
+                                RedPack rp = DataHelper.Fill<RedPack>(sql).FirstOrDefault();
+                                if (rp != null)
+                                {
+                                    x_rpService.Update(() => new RedPack() { RbCount = rp.RbCount - 1 }, a => a.ID == rp.ID);
+                                    RedPackListInfo rpinfo = new RedPackListInfo()
+                                    {
+                                        PackId = rp.ID,
+                                        GetTime = DateTime.Now,
+                                        PackMoney = rp.RbMoney,
+                                        UserId = userId,
+                                        PackStatus = 0
+                                    };
+                                    this.Insert(rpinfo);
+                                    info.PackId = rp.ID;
+                                    info.RbName = rp.RbName;
+                                    info.PackMoney = rp.RbMoney;
+                                    return info;
+                                }
+                                else
+                                {
+                                    info.PackId = 0;
+                                    info.RbName = "红包已发完，请留意后续活动";
+                                }
                             }
                         }
                     }
