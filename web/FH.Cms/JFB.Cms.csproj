@@ -556,6 +556,10 @@
       <Project>{48986C93-F7FD-4545-9239-FB15B5C65C5D}</Project>
       <Name>JFB.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\JFB.Api\JFB.Api.csproj">
+      <Project>{47710260-751f-4455-91d0-b9a7a18d2031}</Project>
+      <Name>JFB.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JFB.Business.Domain\JFB.Business.Domain.csproj">
       <Project>{4162a519-4cf5-4290-a64c-fa8e87c8f87d}</Project>
       <Name>JFB.Business.Domain</Name>

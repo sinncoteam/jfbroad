@@ -12,6 +12,7 @@ using JFB.Business.Domain.Model;
 using JFB.Cms.Models;
 using JFB.Business.Domain.Info;
 using System.Threading;
+using JFB.Api.RedPackApi;
 
 namespace JFB.Cms.Controllers
 {
@@ -162,20 +163,36 @@ namespace JFB.Cms.Controllers
                 lock (locker)
                 {
                     list = x_rplService.getAllUser();
+                    int count = 0;
                     for (int i = 0; i < list.Count; i++)
                     {
                         string noncestr = "";
                         string paysing = "";
                         var item = list[i];
                         //Senparc.Weixin.MP.TenPayLibV3.RedPackApi.SendNormalRedPack("appid", "mchid", "tenpaykey", "certpath", "openid", "sendername", "ip", 125, "wishing word", "actionname", "remark", out noncestr, out paysing, "mchBillNo");
-                        x_rplService.Update(() => new RedPackListInfo() { Noncestr = noncestr, PaySign = paysing, PackStatus = 1 }, a => a.ID == item.ID);
+                        RequestModel model = new RequestModel()
+                        {
+                            openid = item.OpenId,
+                             amount = item.PackMoney.ToString(),
+                              clientip = "127.0.0.1",
+                               clientport = "80",
+                                hdclass = "17",
+                                 sendtxt = "解放碑地下环道游戏红包",
+                                  timecontrol = "1"
+                        };
+                        string req = SendRedPack.SendTo(model);
+                        if (!req.Contains("Error") && req.Contains("{\"State\":\"0\"}"))
+                        {
+                            x_rplService.Update(() => new RedPackListInfo() { Noncestr = noncestr, PaySign = paysing, PackStatus = 1 }, a => a.ID == item.ID);
+                            count++;
+                        }
                         if (i > 0 && i % 300 == 0)
                         {
                             Thread.Sleep(15000);
                         }
                     }
                     result.Success = true;
-                    result.Msg = "成功给" + list.Count + "个用户发送了红包";
+                    result.Msg = "该发"+ list.Count +"个，实发" + count + "个用户发送了红包！";
                     
                 }
             }

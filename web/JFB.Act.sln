@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JFB.Business.Domain", "JFB.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JFB.Wx", "JFB.Wx\JFB.Wx.csproj", "{E656969C-2B1C-44A7-AF06-B63CCAA899F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JFB.Api", "JFB.Api\JFB.Api.csproj", "{47710260-751F-4455-91D0-B9A7A18D2031}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{E656969C-2B1C-44A7-AF06-B63CCAA899F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E656969C-2B1C-44A7-AF06-B63CCAA899F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E656969C-2B1C-44A7-AF06-B63CCAA899F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47710260-751F-4455-91D0-B9A7A18D2031}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47710260-751F-4455-91D0-B9A7A18D2031}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47710260-751F-4455-91D0-B9A7A18D2031}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47710260-751F-4455-91D0-B9A7A18D2031}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
