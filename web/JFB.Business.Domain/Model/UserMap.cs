@@ -14,6 +14,7 @@ namespace JFB.Business.Domain.Model
             Table("t_d_user");
             Id(a => a.ID, "ID").Identity();
             Map(a => a.OpenId, "openid");
+            Map(a => a.NickName, "nickname");
             Map(a => a.HeadImage, "headimage");
             Map(a => a.CreateTime, "createtime");
             Map(a => a.IsValid, "isvalid");
