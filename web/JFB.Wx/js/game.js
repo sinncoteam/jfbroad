@@ -66,11 +66,8 @@ $(function(){
 		lplist:null,
 		init:function(){
 			var _this=this;
-			this.mm = parseInt(9000/ (this.xl.length-2));//不加速的情况多少秒跑完全程
+			this.mm = parseInt(3000/ (this.xl.length-2));//不加速的情况多少秒跑完全程
 			this.num=Math.floor(Math.random()*(this.xl.length-2))+1;
-			$(".xs").css({
-					"-webkit-animation":"none"
-				})
 			$(".bg3").text(_this.xl[0].txt);
 			$(".start-btn.btn1").tap(function(){
 				$(this).hide();
@@ -87,19 +84,19 @@ $(function(){
 					return false;
 				}	
 				_this.mm-=200;		
-				if(_this.mm<=parseInt(9000/ (_this.xl.length-2) /2)){
-					_this.mm=parseInt(9000/ (_this.xl.length-2) /2);
-				}else{
-					_this.bgspeed-=300;
+				if(_this.mm<=parseInt(3000/ (_this.xl.length-2) /2)){
+					_this.mm=parseInt(3000/ (_this.xl.length-2) /2);
+				}
+					_this.bgspeed-=500;
 					if(_this.bgspeed<=4000){
 						_this.bgspeed=4000;
 					}
-				}
+				
 				$(".xt-container .xt").css({
 					"-webkit-animation":"bgScroll "+_this.bgspeed+"ms linear infinite;"
 				})
 				$(".xs").css({
-					"-webkit-animation":"xs "+_this.bgspeed+"ms linear infinite;"
+					"-webkit-animation":"xs 8000ms linear infinite;"
 				})
 			})
 			$(".sorry-btn.btn1").tap(function(){
@@ -120,18 +117,19 @@ $(function(){
 			})
 			$(".start-btn").on("touchend",function(){
 				$(this).css({
-					"background":"url('/jfb/images/start.png')",
+				    "background": "url('/jfb/images/start.png')",
 					"background-size":"100% 100%"
 				});
 			})
 			$(".games-btn").tap(function(){
+				$(".bg3").show().text(_this.xl[0].txt);
 				$(this).parents(".dialog").hide();
 				if($(this).hasClass("true-btn")){
 					$(".xt-container .xt").css({
 						"-webkit-animation":"bgScroll "+_this.bgspeed+"ms linear infinite;"
 					})
 					$(".xs").css({
-						"-webkit-animation":"xs "+_this.bgspeed+"ms linear infinite;"
+						"-webkit-animation":"xs 8000ms linear infinite;"
 					})
 					_this.run();
 				}else{
@@ -164,7 +162,7 @@ $(function(){
 							_this.lplist = new lp(_this.xl[_this.total]);
 						}
 					}else if(_this.lplist != null){
-						if(_this.total1 % _this.mm == 0){
+						if(_this.total1 %_this.mm == 0){
 							_this.lplist.lp.remove();
 							_this.lplist = null;
 							game.total++;
@@ -175,7 +173,7 @@ $(function(){
 									if(_this.time >= 120){
 										$("#time-dialog").show();
 									}else{
-									    getredpack();
+						                getredpack();
 									}
 									$(".xt-container .xt").css({
 										"-webkit-animation":"none"
@@ -191,7 +189,7 @@ $(function(){
 				},1000);
 		},
 		mreset:function(){
-			this.mm = parseInt(9000/ (this.xl.length-2))
+			this.mm = parseInt(3000/ (this.xl.length-2))
 			this.num=Math.floor(Math.random()*(this.xl.length-2))+1;
 			if(this.lplist != null){
 				this.lplist.lp.remove();
