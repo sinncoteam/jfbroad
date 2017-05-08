@@ -207,9 +207,6 @@
     <Content Include="Views\Home\Game.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="images\Thumbs.db" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="css\style.less" />
   </ItemGroup>
   <ItemGroup>
