@@ -22,7 +22,8 @@ namespace JFB.Wx.Controllers
             ////json = AESHelper.Encode("123123123", "7b29e94b1b0bbaed");
 
             //string ss = AESHelper.AESDecrypt(json, "7b29e94b1b0bbaed");
-            
+
+            //Authentication.Instance.SetAuth(new UserInfo() { ID = 4 }, true);
             return View();
         }
         [AuthLogin]

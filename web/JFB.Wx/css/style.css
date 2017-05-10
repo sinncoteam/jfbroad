@@ -145,14 +145,12 @@ body {
 }
 .games-container .xt-container .xt {
   position: absolute;
-  width: 0.175rem;
-  height: 200%;
+  width: 6px;
+  height: 2500px;
   left: 50%;
-  margin-left: -0.0875rem;
-  top: -100%;
-}
-.games-container .xt-container .xt.active {
-  -webkit-animation: bgScroll 8000ms linear infinite;
+  margin-left: -3px;
+  bottom: 0;
+  -webkit-transition: transform 300ms linear;
 }
 .games-container .car {
   width: 3.225rem;
@@ -357,7 +355,7 @@ body {
 }
 .xs {
   position: absolute;
-  top: 6.25rem;
+  top: 2rem;
   -webkit-transform: scale(0.1);
   -webkit-transform-origin: left;
   left: 55%;
@@ -366,7 +364,7 @@ body {
   height: 2.275rem;
   background: url(../images/xs.png) no-repeat;
   background-size: 100% 100%;
-  -webkit-animation: xs 8000ms linear infinite;
+  -webkit-transition: transform 300ms linear;
 }
 @-webkit-keyframes xs {
   0% {

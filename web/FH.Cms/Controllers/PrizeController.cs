@@ -183,9 +183,10 @@ namespace JFB.Cms.Controllers
                         string req = SendRedPack.SendTo(model);
                         if (!req.Contains("Error") && req.Contains("{\"State\":\"0\"}"))
                         {
-                            x_rplService.Update(() => new RedPackListInfo() { Noncestr = noncestr, PaySign = paysing, PackStatus = 1 }, a => a.ID == item.ID);
+                            x_rplService.Update(() => new RedPackListInfo() { Noncestr = req, PaySign = paysing, PackStatus = 1 }, a => a.ID == item.ID);
                             count++;
                         }
+                        Thread.Sleep(10);
                         if (i > 0 && i % 300 == 0)
                         {
                             Thread.Sleep(15000);

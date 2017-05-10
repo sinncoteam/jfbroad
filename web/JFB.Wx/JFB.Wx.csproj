@@ -162,6 +162,7 @@
     <Content Include="images\xx.png" />
     <Content Include="js\common.js" />
     <Content Include="js\game.js" />
+    <Content Include="js\game_1.js" />
     <Content Include="js\index.js" />
     <Content Include="js\zepto.js" />
     <Content Include="Web.config" />

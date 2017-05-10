@@ -3,6 +3,9 @@ $(function(){
 	$(document).on("touchmove",function(event){
 		event.preventDefault();
 	})
+	$("html,.dialog,.start-btn").tap(function(){
+		return false;
+	})
 	
 	//获取url参数的函数
 	function GetQueryString(name) {
@@ -13,7 +16,7 @@ $(function(){
 	}
 	
 	var lx=GetQueryString("lx");
-    var xl;
+    var xl; //获取用户选择的路线
     if(lx==1){
     	xl=[{
     		txt:'北区路入口',
@@ -53,157 +56,201 @@ $(function(){
     }else{
     	return false;
     }
-	var game={
-		xl:xl,
-		mm:0,
-		total:1,
-		total1:0,
-		num:0,
-		speed:100,
-		bgspeed:8000,
-		timer:null,
-		time:0,
-		lplist:null,
-		init:function(){
-			var _this=this;
-			this.mm = parseInt(3000/ (this.xl.length-2));//不加速的情况多少秒跑完全程
-			this.num=Math.floor(Math.random()*(this.xl.length-2))+1;
-			$(".bg3").text(_this.xl[0].txt);
-			$(".start-btn.btn1").tap(function(){
-				$(this).hide();
-				$(".xt-container .xt").css({
-					"-webkit-animation":"bgScroll 8000ms linear infinite;"
-				})
-				$(".xs").css({
-					"-webkit-animation":"xs 8000ms linear infinite;"
-				})
-				_this.run();
-			})
-			$(".start-btn.btn2").tap(function(){
-				if(_this.total > _this.xl.length-2){
-					return false;
-				}	
-				_this.mm-=200;		
-				if(_this.mm<=parseInt(3000/ (_this.xl.length-2) /2)){
-					_this.mm=parseInt(3000/ (_this.xl.length-2) /2);
-				}
-					_this.bgspeed-=500;
-					if(_this.bgspeed<=4000){
-						_this.bgspeed=4000;
-					}
-				
-				$(".xt-container .xt").css({
-					"-webkit-animation":"bgScroll "+_this.bgspeed+"ms linear infinite;"
-				})
-				$(".xs").css({
-					"-webkit-animation":"xs 8000ms linear infinite;"
-				})
-			})
-			$(".sorry-btn.btn1").tap(function(){
-				_this.mreset();
-				$(".sorry-dialog").hide();
-				$(".start-btn.btn1").show();
-				$(".time").text("0s");
-			})
-			$(".win-btn").tap(function(){
-				$(this).parents(".dialog").hide();
-				$("#fx-dialog").show();
-			})
-			$(".start-btn").on("touchstart",function(){
+    
+    
+    
+    var game={
+    	xl:xl,
+    	speed:20,
+    	scale:0.1,
+    	offset:0,
+    	end:1800,
+    	left:0,
+    	num:0,
+    	total:1,
+    	list:null,
+    	time:30,
+    	timer:null,
+    	btn:true,
+    	ran: null,
+    	istart: false,
+    	runcount: 0,
+        speedjs:0,
+    	init:function(){
+    		var _this=this;
+    		this.btn=$(".start-btn.btn2");
+    		this.btn1=$(".start-btn.btn1");
+    		this.bg3=$(".bg3");
+    		this.xt=$(".xt");
+    		this.xs=$(".xs");
+    		this.ran=Math.floor(Math.random()*(this.xl.length-2))+1;
+    		this.bg3.text(this.xl[0].txt);  //显示入口名称
+    		$(".start-btn").on("touchstart",function(){
 				$(this).css({
 					"background":"url('/jfb/images/start1.png')",
 					"background-size":"100% 100%"
 				});
 			})
+    		$(".win-btn").tap(function(){
+    			$("#fx-dialog").show();
+    		})
 			$(".start-btn").on("touchend",function(){
 				$(this).css({
 				    "background": "url('/jfb/images/start.png')",
 					"background-size":"100% 100%"
 				});
 			})
-			$(".games-btn").tap(function(){
-				$(".bg3").show().text(_this.xl[0].txt);
+			$(".games-btn.true-btn").click(function(){
 				$(this).parents(".dialog").hide();
-				if($(this).hasClass("true-btn")){
-					$(".xt-container .xt").css({
-						"-webkit-animation":"bgScroll "+_this.bgspeed+"ms linear infinite;"
-					})
-					$(".xs").css({
-						"-webkit-animation":"xs 8000ms linear infinite;"
-					})
-					_this.run();
-				}else{
-					$(".time").text("0s");
-					$("#sorry-dialog").show();
-				}
-				
-			})
-		},
-		run:function(){
-			var _this=this;		
-				$(".bg3").hide();
 				_this.timer=setInterval(function(){
-					_this.total1+=_this.speed;
-					_this.time++;
-					$(".time").text(_this.time+"S");
-					console.log(_this.mm);
-					if(_this.lplist == null){
-						if(_this.total1%_this.mm==0){
-							if(_this.num == _this.total){
-								$("#ques-dialog").show();
-								$(".xt-container .xt").css({
-									"-webkit-animation":"none"
-								})
-								$(".xs").css({
-									"-webkit-animation":"none"
-								})
-								clearInterval(_this.timer);
-							}
-							_this.lplist = new lp(_this.xl[_this.total]);
-						}
-					}else if(_this.lplist != null){
-						if(_this.total1 %_this.mm == 0){
-							_this.lplist.lp.remove();
-							_this.lplist = null;
-							game.total++;
-							
-							if(_this.total >= _this.xl.length-1){	
-								$(".bg3").show().text(_this.xl[_this.xl.length-1].txt)
-								setTimeout(function(){
-									if(_this.time >= 120){
-										$("#time-dialog").show();
-									}else{
-						                getredpack();
-									}
-									$(".xt-container .xt").css({
-										"-webkit-animation":"none"
-									})
-									$(".xs").css({
-										"-webkit-animation":"none"
-									})
-									clearInterval(_this.timer);	
-								},1000)
-							}
-						}
+	    			_this.time--;
+	    			$(".time").text(_this.time+"s");
+	    			if(_this.time <=0){
+	    				$("#time-dialog").show();
+	    				_this.btn=false;
+	    				clearInterval(_this.timer);
+	    			}
+	    		},1000)
+			})
+			$(".games-btn.false-btn").click(function(){
+				$(this).parents(".dialog").hide();
+				$("#sorry-dialog").show();
+			})
+			this.btn1.tap(function () {
+			    $(this).hide();
+				_this.bg3.hide();				
+				_this.setrun();
+				_this.timer=setInterval(function(){
+	    			_this.time--;
+	    			$(".time").text(_this.time+"s");
+	    			if(_this.time <=0){
+	    				$("#time-dialog").show();
+	    				_this.btn=false;
+	    				clearInterval(_this.timer);
+	    			}
+	    		},1000)
+			})
+    		this.btn.tap(function(){
+    			if(_this.btn == false){
+    				return false;
+    			}
+    			_this.beginrun();
+    		})
+    		
+    		$(".sorry-btn.btn1").click(function(){
+    			$(this).parents(".dialog").hide();
+    			$(".time").text("30s");
+    			_this.rest();
+    		})
+    	},
+    	setrun: function()
+    	{
+    	    var _this = this;
+    	    //console.info("run");
+    	    setInterval(function () {
+    	        //console.info("inter: " + _this.runcount);
+    	        if (_this.runcount > 0) {
+    	            _this.runcount--;
+    	            _this.speedjs++;
+    	            //console.info("js:"+_this.speedjs);
+    	            _this.run(_this.speedjs);
+    	        }
+    	        else {
+                    if(_this.speedjs> 0)  _this.speedjs--;
+    	        }
+    	    }, 300);
+    	},
+    	beginrun:function()
+    	{
+    	    this.runcount++;
+    	    //console.info("count:"+this.runcount);
+    	},
+    	run:function(sp){
+    		var _this=this;
+    		this.offset+=this.speed + sp; 
+    		this.scale+=0.05;
+    		this.left+=2;
+    		if(this.scale>=1.5){
+    			this.scale=1.5;
+    		}
+    		if(this.offset >= 1200){
+    			this.xt.css({
+	    			"-webkit-transition":"none"
+	    		})
+    			this.xs.css({
+	    			"-webkit-transition":"none"
+	    		})
+    			this.offset = 0;
+    			this.scale=0.1;
+    			this.left=0;
+    		}else{
+    			this.xt.css({
+	    			"-webkit-transition":"transform 300ms linear"
+	    		})
+    			this.xs.css({
+	    			"-webkit-transition":"transform 300ms linear"
+	    		})
+    		}
+    		this.xt.css({
+    			"-webkit-transform":"translateY("+_this.offset+"px)"
+    		})
+    		this.xs.css({
+    			"-webkit-transform":"translateY("+_this.offset+"px) translateX("+_this.left+"px) scale("+_this.scale+")"
+    		})
+    		this.setlp();
+    	},
+    	setlp:function(){
+    		var _this=this;
+    		this.num=this.end/(this.xl.length-2);
+    		if(_this.offset % _this.num == 0){
+    			if(_this.total == _this.xl.length-1){
+    				_this.bg3.show().text(_this.xl[_this.xl.length-1].txt); //显示出口
+					clearInterval(_this.timer);
+					_this.btn=false;
+					if(_this.time>0){
+						setTimeout(function(){
+						    //$("#win-dialog").show();
+						    getredpack();
+		    			},1000);
 					}
-				},1000);
-		},
-		mreset:function(){
-			this.mm = parseInt(3000/ (this.xl.length-2))
-			this.num=Math.floor(Math.random()*(this.xl.length-2))+1;
-			if(this.lplist != null){
-				this.lplist.lp.remove();
-				this.lplist = null;
-			}	
-			this.total=1;
-			this.total1=0;
-			this.speed=100;
-			this.bgspeed=8000;
-			this.timer=null;
-			this.time=0;
-			this.lplist=null;
-		}
-	}
+					
+    				_this.total=1;
+    			}else{
+    				if(_this.total == _this.ran){
+    					$("#ques-dialog").show();
+    					clearInterval(_this.timer);
+    				}
+    				_this.list = new lp(_this.xl[_this.total]);
+	    			setTimeout(function(){
+	    				_this.list.lp.remove();
+	    				_this.list=null;
+	    			},1000);
+	    			_this.total++;
+    			}
+    			
+    		}
+    	},
+    	rest:function(){
+    		var _this=this;
+    		this.time=30;
+    		this.offset=0;
+    		this.scale=0.1;
+    		this.num=0;
+    		this.total=1;
+    		this.left=0;
+    		this.btn=true;
+    		this.btn1.show();
+    		this.bg3.show().text(this.xl[0].txt);  //显示入口名称
+    		this.xt.css({
+    			"-webkit-transition":"none",
+    			"-webkit-transform":"translateY("+_this.offset+"px)"
+    		})
+    		this.xs.css({
+    			"-webkit-transition":"none",
+    			"-webkit-transform":"translateY("+_this.offset+"px) translateX("+_this.left+"px) scale("+_this.scale+")"
+    		})
+    	}
+    }
 	game.init();
 	
 	//路牌类
@@ -213,7 +260,6 @@ $(function(){
 		this.fx=obj.fx;
 		this.type=obj.type;
 		this.lp;
-		this.mm=game.mm;
 		this.txtCon;
 		this.init();	
 	}
@@ -236,4 +282,7 @@ $(function(){
 		this.lp.append(this.txtCon);
 		$("body").append(this.lp);	
 	}	
+	
+	//new lp(xl[0]); 创建路牌的方法
+	
 })
