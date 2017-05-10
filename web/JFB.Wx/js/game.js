@@ -71,7 +71,8 @@ $(function ()
         speed: 20,
         scale: 0.1,
         offset: 0,
-        end: 1800,
+        offsetv: 0,
+        end: 1600,
         left: 0,
         num: 0,
         total: 1,
@@ -177,31 +178,36 @@ $(function ()
                 if (_this.runcount > 0)
                 {
                     _this.runcount--;
-                    _this.speedjs++;
+                    _this.speedjs += 2;
                     //console.info("js:"+_this.speedjs);
                     _this.run(_this.speedjs);
                 }
                 else
                 {
-                    if (_this.speedjs > 0) _this.speedjs--;
+                    if (_this.speedjs > 0) _this.speedjs -= 2;
                 }
             }, 300);
         },
         beginrun: function ()
         {
             this.runcount++;
+            this.offsetv += this.speed;
+            if (this.offsetv >= 1000) { this.offsetv = 0; }
+            this.setlp();
             //console.info("count:"+this.runcount);
         },
         run: function (sp)
         {
             var _this = this;
             this.offset += this.speed + sp;
+
             this.scale += 0.05;
             this.left += 2;
             if (this.scale >= 1.5)
             {
                 this.scale = 1.5;
             }
+
             if (this.offset >= 1200)
             {
                 this.xt.css({
@@ -213,7 +219,8 @@ $(function ()
                 this.offset = 0;
                 this.scale = 0.1;
                 this.left = 0;
-            } else
+            }
+            else
             {
                 this.xt.css({
                     "-webkit-transition": "transform 300ms linear"
@@ -228,13 +235,13 @@ $(function ()
             this.xs.css({
                 "-webkit-transform": "translateY(" + _this.offset + "px) translateX(" + _this.left + "px) scale(" + _this.scale + ")"
             })
-            this.setlp();
+
         },
         setlp: function ()
         {
             var _this = this;
             this.num = this.end / (this.xl.length - 2);
-            if (_this.offset % _this.num == 0)
+            if (_this.offsetv % _this.num == 0)
             {
                 if (_this.total == _this.xl.length - 1)
                 {
@@ -264,7 +271,7 @@ $(function ()
                     {
                         _this.list.lp.remove();
                         _this.list = null;
-                    }, 1000);
+                    }, 2000);
                     _this.total++;
                 }
 
