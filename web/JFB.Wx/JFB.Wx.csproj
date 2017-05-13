@@ -15,7 +15,7 @@
     <AssemblyName>JFB.Wx</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -199,6 +199,10 @@
       <Project>{48986c93-f7fd-4545-9239-fb15b5c65c5d}</Project>
       <Name>JFB.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\JFB.Api\JFB.Api.csproj">
+      <Project>{47710260-751F-4455-91D0-B9A7A18D2031}</Project>
+      <Name>JFB.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JFB.Business.Domain\JFB.Business.Domain.csproj">
       <Project>{4162a519-4cf5-4290-a64c-fa8e87c8f87d}</Project>
       <Name>JFB.Business.Domain</Name>
@@ -239,12 +243,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1368</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost:1368/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

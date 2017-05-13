@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
+using ViCore.Logging;
 
 namespace JFB.Api.RedPackApi
 {
@@ -25,7 +26,7 @@ namespace JFB.Api.RedPackApi
             AESHelper Aes = new AESHelper();
             string jsondata = AESHelper.Encode(json);
             string postData = "par=" + HttpUtility.UrlEncode(jsondata);
-            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+            //byte[] byteArray = Encoding.UTF8.GetBytes(postData);
             string url = "http://wxin2.cqnews.net/yxhb_grp/pay_qxbbc_interface.aspx?"+ postData;
 
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
@@ -44,7 +45,8 @@ namespace JFB.Api.RedPackApi
                     using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
                     {
                         string content = reader.ReadToEnd();
-                        return content;
+                    Logging4net.WriteInfo("content: " + content);
+                    return content;
                     }
                 }
             //}

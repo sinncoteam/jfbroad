@@ -1,10 +1,13 @@
-﻿using JFB.Business.Domain.Info;
+﻿using JFB.Api.RedPackApi;
+using JFB.Business.Domain.Info;
 using JFB.Business.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using ViCore.Logging;
 using ViData;
 
 namespace JFB.Business.Domain.Service
@@ -24,6 +27,7 @@ namespace JFB.Business.Domain.Service
         /// <returns></returns>
         public RedPackListInfo CheckInRedPack(int userId)
         {
+            UserInfo u = new UserService().GetById(userId);
             RedPackListInfo info = new RedPackListInfo();
             List<RedPackCheck> clist = new List<RedPackCheck>();
             RedPackService x_rpService = new RedPackService();
@@ -63,9 +67,11 @@ namespace JFB.Business.Domain.Service
                                     GetTime = DateTime.Now,
                                     PackMoney = nowitem.RbMoney,
                                     UserId = userId,
+                                    OpenId = u.OpenId,
                                     PackStatus = 0
                                 };
-                                this.Insert(rpinfo);
+                                rpinfo.ID = Convert.ToInt32(this.Insert(rpinfo));
+                                SendRP(rpinfo);
                                 info.PackId = nowitem.ID;
                                 info.RbName = nowitem.RbName;
                                 info.PackMoney = nowitem.RbMoney;
@@ -83,10 +89,12 @@ namespace JFB.Business.Domain.Service
                                         PackId = rp.ID,
                                         GetTime = DateTime.Now,
                                         PackMoney = rp.RbMoney,
+                                        OpenId = u.OpenId,
                                         UserId = userId,
                                         PackStatus = 0
                                     };
-                                    this.Insert(rpinfo);
+                                    rpinfo.ID = Convert.ToInt32(this.Insert(rpinfo));
+                                    SendRP(rpinfo);
                                     info.PackId = rp.ID;
                                     info.RbName = rp.RbName;
                                     info.PackMoney = rp.RbMoney;
@@ -114,6 +122,46 @@ namespace JFB.Business.Domain.Service
             }           
             
             return info;
+        }
+
+        private void SendRP(RedPackListInfo item)
+        {
+            ParameterizedThreadStart ts = new ParameterizedThreadStart(TsSendRP);
+            Thread th = new Thread(ts);
+            th.Start(item);
+        }
+
+        void TsSendRP(object obj)
+        {
+            try
+            {
+                RedPackListInfo item = obj as RedPackListInfo;
+                RequestModel model = new RequestModel()
+                {
+                    openid = item.OpenId,
+                    amount = item.PackMoney.ToString(),
+                    clientip = "127.0.0.1",
+                    clientport = "80",
+                    hdclass = "17",
+                    sendtxt = "解放碑地下环道游戏红包",
+                    timecontrol = "1"
+                };
+                string req = SendRedPack.SendTo(model);
+                Logging4net.WriteInfo("result: "+req);
+                if (!req.Contains("Error") && req.Contains("{\"State\":\"0\"}"))
+                {
+                    this.Update(() => new RedPackListInfo() { PaySign = req, PackStatus = 1 }, a => a.ID == item.ID);
+                }
+                else
+                {
+                   int i = this.Update(() => new RedPackListInfo() { PaySign = req }, a => a.ID == item.ID);
+
+                }
+            }
+            catch(Exception ex)
+            {
+                Logging4net.WriteError(ex, "红包发送失败");
+            }
         }
     }
 }

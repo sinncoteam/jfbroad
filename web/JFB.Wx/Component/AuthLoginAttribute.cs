@@ -68,8 +68,8 @@ namespace JFB.Wx.Component
                 //host = filterContext.HttpContext.Server.UrlEncode("http://" + host + "/user/wxlogin");
                 //string loginurl = filterContext.HttpContext.Server.UrlEncode("/wx/login?s=" + pq);
                 //host = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + tenPayV3Info.AppId + "&redirect_uri=" + host + "&response_type=code&scope=snsapi_base&state=" + loginurl + "#wechat_redirect";
-                //string host = filterContext.HttpContext.Request.Url.Host;
-                string host = "xianyunsoft.xicp.cn";
+                string host = filterContext.HttpContext.Request.Url.Host;
+                //string host = "xianyunsoft.xicp.cn";
                 string hostUrl = "http://wxin2.cqnews.net/authorize.aspx?gp=679fc6fc2cd842cba05e1f07660bc5ab&ga=0682ed39d45745ae879f43d06e267ed0&opa=";
                  hostUrl += HttpUtility.UrlEncode( "http://"+ host +"/jfb/wx/reclogin?s="+pq);
                 
